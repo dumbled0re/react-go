@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
+import AppHeader from "./AppHeader";
 import AppFooter from "./AppFooter";
 import AppContent from "./AppContent";
 
@@ -12,12 +13,16 @@ import "./index.css";
 
 class App extends Component {
   render() {
+    const myProps = {
+      title: "My Cool App!",
+      subject: "My subject",
+      favourite_color: "red",
+    };
     return (
       <div className="app">
-        <div>
-          <h1>Hello, world!</h1>
-          <AppContent />
-        </div>
+        {/* myPropsを展開 */}
+        <AppHeader {...myProps} />
+        <AppContent />
         <AppFooter />
       </div>
     );
