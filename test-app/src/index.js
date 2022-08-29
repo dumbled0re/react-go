@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
+import AppFooter from "./AppFooter";
 
 class App extends Component {
   render() {
@@ -8,6 +9,7 @@ class App extends Component {
         <div>
           <h1>Hello, world!</h1>
         </div>
+        <AppFooter />
       </div>
     );
   }
