@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import AppHeader from "./AppHeader";
-// import AppFooter from "./AppFooter";
+import AppFooter from "./AppFooter";
 import AppContent from "./AppContent";
-import AppFooterFunctionalComponent from "./AppFooterFunctionalComponent";
+// import AppFooterFunctionalComponent from "./AppFooterFunctionalComponent";
 
 // css
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -37,9 +37,12 @@ class App extends Component {
           posts={this.state.posts}
           handlePostChange={this.handlePostChange}
         />
-        <AppContent handlePostChange={this.handlePostChange} />
-        {/* <AppFooter /> */}
-        <AppFooterFunctionalComponent myProperty={"Hello, world"} />
+        <AppContent
+          handlePostChange={this.handlePostChange}
+          posts={this.state.posts}
+        />
+        <AppFooter />
+        {/* <AppFooterFunctionalComponent myProperty={"Hello, world"} /> */}
       </div>
     );
   }
