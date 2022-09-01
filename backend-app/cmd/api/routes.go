@@ -12,5 +12,10 @@ func (app *application) routes() *httprouter.Router {
 	// getメソッド
 	router.HandlerFunc(http.MethodGet, "/status", app.statusHandler)
 
+	// 第三引数にハンドラーを渡す
+	router.HandlerFunc(http.MethodGet, "/v1/movie/:id", app.getOneMovie)
+
+	router.HandlerFunc(http.MethodGet, "/v1/movies", app.getAllMovie)
+
 	return router
 }
