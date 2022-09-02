@@ -1,6 +1,7 @@
 package main
 
 import (
+	"backend/models"
 	"context"
 	"database/sql"
 	"flag"
@@ -32,6 +33,7 @@ type AppStatus struct {
 type application struct {
 	config config
 	logger *log.Logger
+	models models.Models
 }
 
 func main() {
@@ -41,8 +43,7 @@ func main() {
 	// 引数は変数のポインタ(メモリのアドレス値)、フラグの名前、デフォルト値、使い方の説明
 	flag.IntVar(&cfg.port, "port", 4000, "Server port to listen on")
 	flag.StringVar(&cfg.env, "env", "development", "Application environment (development|production)")
-	// flag.StringVar(&cfg.db.dsn, "dsn", "postgres://[role name]:[password]@localhost/[db name]?sslmode=disable", "Postgres connection string")
-	flag.StringVar(&cfg.db.dsn, "dsn", "postgres://ritsushi:@localhost/go_movies?sslmode=disable", "Postgres connection string")
+	flag.StringVar(&cfg.db.dsn, "dsn", "postgres://ritsushi:postgresql@localhost:5432/go_movies?sslmode=disable", "Postgres connection string")
 	// Parse()でそれぞれの変数にアクセス可能
 	flag.Parse()
 
@@ -58,6 +59,7 @@ func main() {
 	app := &application{
 		config: cfg,
 		logger: logger,
+		models: models.NewModels(db),
 	}
 
 	// サーバー設定をカスタマイズ
