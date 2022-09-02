@@ -11,11 +11,16 @@ import (
 )
 
 func (app *application) getOneMovie(w http.ResponseWriter, r *http.Request) {
+	// クエリパラメータを取得する(id)
 	params := httprouter.ParamsFromContext(r.Context())
 
+	// intにパース
 	id, err := strconv.Atoi(params.ByName("id"))
 	if err != nil {
+		// errors.Newで独自エラー作成
 		app.logger.Print(errors.New("invalid id parameter"))
+		app.errorJSON(w, err)
+		return
 	}
 
 	app.logger.Println("id is", id)
@@ -33,6 +38,7 @@ func (app *application) getOneMovie(w http.ResponseWriter, r *http.Request) {
 		UpdatedAt:   time.Now(),
 	}
 
+	// http.StatusOKはステータスコード
 	err = app.writeJSON(w, http.StatusOK, movie, "movie")
 	if err != nil {
 		app.logger.Println(err)

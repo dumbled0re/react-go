@@ -30,13 +30,14 @@ type application struct {
 func main() {
 	var cfg config
 
-	// 型名Var()を使った場合、引数で渡した変数にバインド
+	// flagでconfigのプロパティを初期化する
+	// 引数は変数のポインタ(メモリのアドレス値)、フラグの名前、デフォルト値、使い方の説明
 	flag.IntVar(&cfg.port, "port", 4000, "Server port to listen on")
 	flag.StringVar(&cfg.env, "env", "development", "Application environment (development|production)")
 	// Parse()でそれぞれの変数にアクセス可能
 	flag.Parse()
 
-	// ターミナルにログ出力
+	// Loggerオブジェクトを生成して出力フォーマットを設定する
 	logger := log.New(os.Stdout, "", log.Ldate|log.Ltime)
 
 	app := &application{
@@ -44,6 +45,7 @@ func main() {
 		logger: logger,
 	}
 
+	// サーバー設定をカスタマイズ
 	srv := &http.Server{
 		Addr:         fmt.Sprintf(":%d", cfg.port),
 		Handler:      app.routes(),

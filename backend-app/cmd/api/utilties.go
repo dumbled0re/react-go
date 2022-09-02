@@ -10,6 +10,7 @@ func (app *application) writeJSON(w http.ResponseWriter, status int, data interf
 
 	wrapper[wrap] = data
 
+	// jsonに変換
 	js, err := json.Marshal(wrapper)
 	if err != nil {
 		return err
@@ -20,4 +21,16 @@ func (app *application) writeJSON(w http.ResponseWriter, status int, data interf
 	w.Write(js)
 
 	return nil
+}
+
+func (app *application) errorJSON(w http.ResponseWriter, err error) {
+	type jsonError struct {
+		Message string `json:"message"`
+	}
+
+	theError := jsonError{
+		Message: err.Error(), // 構造体の場合はerr.Error()にする必要あり
+	}
+
+	app.writeJSON(w, http.StatusBadRequest, theError, "error")
 }
