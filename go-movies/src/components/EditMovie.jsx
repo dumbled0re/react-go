@@ -3,6 +3,7 @@ import "./EditMovie.css";
 import Input from "./form-components/Input";
 import TextArea from "./form-components/TextArea";
 import Select from "./form-components/Select";
+import Alert from "../ui-components/Alert";
 
 export default class EditMovie extends Component {
   constructor(props) {
@@ -27,6 +28,10 @@ export default class EditMovie extends Component {
       isLoaded: false,
       error: null,
       errors: [],
+      alert: {
+        type: "d-none",
+        message: "",
+      },
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -60,7 +65,15 @@ export default class EditMovie extends Component {
     fetch("http://localhost:4000/v1/admin/editmovie", requestOptions)
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
+        if (data.error) {
+          this.setState({
+            alert: { type: "alert-danger", message: data.error.message },
+          });
+        } else {
+          this.setState({
+            alert: { type: "alert-success", message: "Changes saved!" },
+          });
+        }
       });
   };
 
@@ -131,6 +144,10 @@ export default class EditMovie extends Component {
       return (
         <Fragment>
           <h2>Add/Edit Movie</h2>
+          <Alert
+            alertType={this.state.alert.type}
+            alertMessage={this.state.alert.message}
+          />
           <hr />
           <form onSubmit={this.handleSubmit}>
             <input
